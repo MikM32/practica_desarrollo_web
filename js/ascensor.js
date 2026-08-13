@@ -6,16 +6,22 @@
   var direccion = "detenido";
   var estado = "detenido";
   var enMovimiento = false;
+  var solicitudes = [];
 
-  function subir(piso) {
-    pisoDestino = piso;
+  function mover() {
+    if (enMovimiento) return;
+    if (solicitudes.length === 0) return;
+
+    pisoDestino = solicitudes.shift();
     enMovimiento = true;
-    direccion = "subiendo";
-    estado = "subiendo";
+    direccion = pisoDestino > pisoActual ? "subiendo" : "bajando";
+    estado = direccion;
+
     var intervalo = setInterval(function () {
-      pisoActual += 1;
+      pisoActual += pisoDestino > pisoActual ? 1 : -1;
       console.log("Piso actual: " + pisoActual);
-      if (pisoActual >= pisoDestino) {
+
+      if (pisoActual === pisoDestino) {
         clearInterval(intervalo);
         estado = "atendiendo";
         console.log("Solicitud atendida en el piso " + pisoActual);
@@ -23,38 +29,16 @@
         estado = "detenido";
         pisoDestino = null;
         enMovimiento = false;
-      }
-    }, 1000);
-  }
-
-  function bajar(piso) {
-    pisoDestino = piso;
-    enMovimiento = true;
-    direccion = "bajando";
-    estado = "bajando";
-    var intervalo = setInterval(function () {
-      pisoActual -= 1;
-      console.log("Piso actual: " + pisoActual);
-      if (pisoActual <= pisoDestino) {
-        clearInterval(intervalo);
-        estado = "atendiendo";
-        console.log("Solicitud atendida en el piso " + pisoActual);
-        direccion = "detenido";
-        estado = "detenido";
-        pisoDestino = null;
-        enMovimiento = false;
+        mover();
       }
     }, 1000);
   }
 
   function llamarAscensor(piso) {
-    if (enMovimiento) return;
     if (piso === pisoActual) return;
-    if (piso > pisoActual) {
-      subir(piso);
-    } else {
-      bajar(piso);
-    }
+    if (solicitudes.indexOf(piso) !== -1) return;
+    solicitudes.push(piso);
+    mover();
   }
 
   window.Ascensor = {
@@ -70,6 +54,9 @@
     },
     getEstado: function () {
       return estado;
+    },
+    getSolicitudes: function () {
+      return solicitudes.slice();
     }
   };
 })();
