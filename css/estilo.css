@@ -285,7 +285,7 @@ h1 {
 .lista-pisos {
   list-style: none;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   height: calc(var(--alto-piso) * 12);
   justify-content: space-around;
   flex: 1;
