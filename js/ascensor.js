@@ -6,6 +6,22 @@ var direccion = "detenido";
 var estado = "detenido";
 var enMovimiento = false;
 var solicitudes = [];
+var observadores = [];
+
+function suscribir(fn) {
+  observadores.push(fn);
+}
+
+function notificar() {
+  observadores.forEach(function (fn) {
+    fn();
+  });
+}
+
+function cambiarEstado(nuevoEstado) {
+  estado = nuevoEstado;
+  notificar();
+}
 
 function mover() {
   if (enMovimiento) return;
@@ -14,19 +30,18 @@ function mover() {
   pisoDestino = solicitudes.shift();
   enMovimiento = true;
   direccion = pisoDestino > pisoActual ? "subiendo" : "bajando";
-  estado = direccion;
+  cambiarEstado(direccion);
 
   var intervalo = setInterval(function () {
     pisoActual += pisoDestino > pisoActual ? 1 : -1;
-    console.log("Piso actual: " + pisoActual);
+    notificar();
 
     if (pisoActual === pisoDestino) {
       clearInterval(intervalo);
-      console.log("Solicitud atendida en el piso " + pisoActual);
       pisoDestino = null;
       direccion = "detenido";
-      estado = "detenido";
       enMovimiento = false;
+      cambiarEstado("detenido");
       mover();
     }
   }, 1000);
@@ -37,11 +52,13 @@ function llamarAscensor(piso) {
   if (piso === pisoDestino) return;
   if (solicitudes.indexOf(piso) !== -1) return;
   solicitudes.push(piso);
+  notificar();
   mover();
 }
 
 window.Ascensor = {
   llamarAscensor: llamarAscensor,
+  suscribir: suscribir,
   getPisoActual: function () {
     return pisoActual;
   },
