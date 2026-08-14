@@ -19,6 +19,7 @@ function iniciar() {
 
   var sliderVelocidad = document.getElementById("velocidad");
   if (sliderVelocidad) {
+    // convierte el valor del slider (1-10) a milisegundos por piso
     sliderVelocidad.value = Math.round((2200 - window.Ascensor.getVelocidad()) / 200);
     sliderVelocidad.addEventListener("input", function () {
       var valor = parseInt(sliderVelocidad.value, 10);
@@ -28,6 +29,7 @@ function iniciar() {
 
   var sliderEspera = document.getElementById("espera");
   if (sliderEspera) {
+    // convierte los segundos del slider en milisegundos de espera
     sliderEspera.value = window.Ascensor.getTiempoParada() / 1000;
     sliderEspera.addEventListener("input", function () {
       var valor = parseInt(sliderEspera.value, 10);
