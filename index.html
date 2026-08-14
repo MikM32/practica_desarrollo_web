@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>ascensor</title>
+  <title>Simulador de ascensor</title>
 </head>
 <body>
   <h1 align="center">Simulador De Ascensor</h1>
@@ -16,27 +16,77 @@
     <label>Tiempo de espera: <input type="range" id="espera" min="0" max="5"></label>
   </div>
 
-  <ul id="pisos">
-    <li id="piso-12">Piso 12 <span class="marcador"></span> <button type="button" data-piso="12">Llamar</button></li>
-    <li id="piso-11">Piso 11 <span class="marcador"></span> <button type="button" data-piso="11">Llamar</button></li>
-    <li id="piso-10">Piso 10 <span class="marcador"></span> <button type="button" data-piso="10">Llamar</button></li>
-    <li id="piso-9">Piso 9 <span class="marcador"></span> <button type="button" data-piso="9">Llamar</button></li>
-    <li id="piso-8">Piso 8 <span class="marcador"></span> <button type="button" data-piso="8">Llamar</button></li>
-    <li id="piso-7">Piso 7 <span class="marcador"></span> <button type="button" data-piso="7">Llamar</button></li>
-    <li id="piso-6">Piso 6 <span class="marcador"></span> <button type="button" data-piso="6">Llamar</button></li>
-    <li id="piso-5">Piso 5 <span class="marcador"></span> <button type="button" data-piso="5">Llamar</button></li>
-    <li id="piso-4">Piso 4 <span class="marcador"></span> <button type="button" data-piso="4">Llamar</button></li>
-    <li id="piso-3">Piso 3 <span class="marcador"></span> <button type="button" data-piso="3">Llamar</button></li>
-    <li id="piso-2">Piso 2 <span class="marcador"></span> <button type="button" data-piso="2">Llamar</button></li>
-    <li id="piso-1">Piso 1 <span class="marcador"></span> <button type="button" data-piso="1">Llamar</button></li>
-  </ul>
+  <table align="center" border="1">
+    <tr id="piso-12">
+      <td>Piso 12</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="12">Llamar</button></td>
+    </tr>
+    <tr id="piso-11">
+      <td>Piso 11</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="11">Llamar</button></td>
+    </tr>
+    <tr id="piso-10">
+      <td>Piso 10</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="10">Llamar</button></td>
+    </tr>
+    <tr id="piso-9">
+      <td>Piso 9</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="9">Llamar</button></td>
+    </tr>
+    <tr id="piso-8">
+      <td>Piso 8</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="8">Llamar</button></td>
+    </tr>
+    <tr id="piso-7">
+      <td>Piso 7</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="7">Llamar</button></td>
+    </tr>
+    <tr id="piso-6">
+      <td>Piso 6</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="6">Llamar</button></td>
+    </tr>
+    <tr id="piso-5">
+      <td>Piso 5</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="5">Llamar</button></td>
+    </tr>
+    <tr id="piso-4">
+      <td>Piso 4</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="4">Llamar</button></td>
+    </tr>
+    <tr id="piso-3">
+      <td>Piso 3</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="3">Llamar</button></td>
+    </tr>
+    <tr id="piso-2">
+      <td>Piso 2</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="2">Llamar</button></td>
+    </tr>
+    <tr id="piso-1">
+      <td>Piso 1</td>
+      <td align="center"><span class="marcador"></span></td>
+      <td><button type="button" data-piso="1">Llamar</button></td>
+    </tr>
+  </table>
 
   <div>
     <button type="button" id="btn-limpiar">Limpiar historial</button>
   </div>
 
   <h3>Historial de eventos</h3>
-  <ul id="historial"></ul>
+  <div id="contenedor-historial" style="width: 400px; height: 400px; overflow-y: auto; border: 1px solid black;">
+    <table id="historial" border="1"></table>
+  </div>
 
   <script src="js/ascensor.js"></script>
   <script src="js/vista.js"></script>
