@@ -11,13 +11,16 @@ var solicitudesAtendidas = 0;
 var historial = [];
 var PISO_MIN = 1;
 var PISO_MAX = 12;
-var TIEMPO_PARADA = 2000;
+var velocidadMs = 1000;
+var tiempoParadaMs = 2000;
 
 function guardarEnStorage() {
   var datos = {
     pisoActual: pisoActual,
     solicitudesAtendidas: solicitudesAtendidas,
-    historial: historial
+    historial: historial,
+    velocidadMs: velocidadMs,
+    tiempoParadaMs: tiempoParadaMs
   };
   localStorage.setItem("ascensor_datos", JSON.stringify(datos));
 }
@@ -37,6 +40,16 @@ function cargarDeStorage() {
       }
       if (Array.isArray(datos.historial)) {
         historial = datos.historial;
+      }
+      if (typeof datos.velocidadMs === "number" &&
+          datos.velocidadMs >= 200 &&
+          datos.velocidadMs <= 2000) {
+        velocidadMs = datos.velocidadMs;
+      }
+      if (typeof datos.tiempoParadaMs === "number" &&
+          datos.tiempoParadaMs >= 0 &&
+          datos.tiempoParadaMs <= 5000) {
+        tiempoParadaMs = datos.tiempoParadaMs;
       }
     } catch (e) {
       // ignorar error de formato
@@ -73,22 +86,23 @@ function mover() {
 }
 
 function iniciarMovimiento() {
-  var intervalo = setInterval(function () {
+  setTimeout(function avanzar() {
     pisoActual += pisoDestino > pisoActual ? 1 : -1;
     notificar();
 
     if (pisoActual === pisoDestino) {
-      clearInterval(intervalo);
       atenderParada(true);
       return;
     }
 
     var indice = solicitudes.indexOf(pisoActual);
     if (indice !== -1) {
-      clearInterval(intervalo);
       atenderParada(false);
+      return;
     }
-  }, 1000);
+
+    setTimeout(avanzar, velocidadMs);
+  }, velocidadMs);
 }
 
 function atenderParada(esDestino) {
@@ -115,7 +129,7 @@ function atenderParada(esDestino) {
       cambiarEstado(direccion);
       iniciarMovimiento();
     }
-  }, TIEMPO_PARADA);
+  }, tiempoParadaMs);
 }
 
 function llamarAscensor(piso) {
@@ -134,6 +148,18 @@ function limpiarHistorial() {
   solicitudesAtendidas = 0;
   guardarEnStorage();
   notificar();
+}
+
+function cambiarVelocidad(ms) {
+  if (ms >= 200 && ms <= 2000) {
+    velocidadMs = ms;
+  }
+}
+
+function cambiarTiempoParada(ms) {
+  if (ms >= 0 && ms <= 5000) {
+    tiempoParadaMs = ms;
+  }
 }
 
 window.Ascensor = {
@@ -163,5 +189,13 @@ window.Ascensor = {
   },
   getUltimoEvento: function () {
     return historial.length > 0 ? historial[historial.length - 1] : "Ninguno";
+  },
+  cambiarVelocidad: cambiarVelocidad,
+  cambiarTiempoParada: cambiarTiempoParada,
+  getVelocidad: function () {
+    return velocidadMs;
+  },
+  getTiempoParada: function () {
+    return tiempoParadaMs;
   }
 };
