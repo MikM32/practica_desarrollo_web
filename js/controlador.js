@@ -39,4 +39,5 @@ function iniciar() {
 window.addEventListener("load", function () {
   window.Vista.init();
   iniciar();
+  window.Ascensor.mover();
 });

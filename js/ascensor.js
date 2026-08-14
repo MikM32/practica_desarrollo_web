@@ -15,8 +15,13 @@ var velocidadMs = 1000;
 var tiempoParadaMs = 2000;
 
 function guardarEnStorage() {
+  var pendientes = solicitudes.slice();
+  if (pisoDestino !== null && pendientes.indexOf(pisoDestino) === -1) {
+    pendientes.unshift(pisoDestino);
+  }
   var datos = {
     pisoActual: pisoActual,
+    solicitudes: pendientes,
     solicitudesAtendidas: solicitudesAtendidas,
     historial: historial,
     velocidadMs: velocidadMs,
@@ -34,6 +39,11 @@ function cargarDeStorage() {
           datos.pisoActual >= PISO_MIN &&
           datos.pisoActual <= PISO_MAX) {
         pisoActual = datos.pisoActual;
+      }
+      if (Array.isArray(datos.solicitudes)) {
+        solicitudes = datos.solicitudes.filter(function (p) {
+          return typeof p === "number" && p >= PISO_MIN && p <= PISO_MAX && p !== pisoActual;
+        });
       }
       if (typeof datos.solicitudesAtendidas === "number") {
         solicitudesAtendidas = datos.solicitudesAtendidas;
@@ -82,12 +92,14 @@ function mover() {
   enMovimiento = true;
   direccion = pisoDestino > pisoActual ? "subiendo" : "bajando";
   cambiarEstado(direccion);
+  guardarEnStorage();
   iniciarMovimiento();
 }
 
 function iniciarMovimiento() {
   setTimeout(function avanzar() {
     pisoActual += pisoDestino > pisoActual ? 1 : -1;
+    guardarEnStorage();
     notificar();
 
     if (pisoActual === pisoDestino) {
@@ -124,6 +136,7 @@ function atenderParada(esDestino) {
       direccion = "detenido";
       enMovimiento = false;
       cambiarEstado("detenido");
+      guardarEnStorage();
       mover();
     } else {
       cambiarEstado(direccion);
@@ -153,12 +166,14 @@ function limpiarHistorial() {
 function cambiarVelocidad(ms) {
   if (ms >= 200 && ms <= 2000) {
     velocidadMs = ms;
+    guardarEnStorage();
   }
 }
 
 function cambiarTiempoParada(ms) {
   if (ms >= 0 && ms <= 5000) {
     tiempoParadaMs = ms;
+    guardarEnStorage();
   }
 }
 
@@ -166,6 +181,7 @@ window.Ascensor = {
   llamarAscensor: llamarAscensor,
   suscribir: suscribir,
   limpiarHistorial: limpiarHistorial,
+  mover: mover,
   getPisoActual: function () {
     return pisoActual;
   },
