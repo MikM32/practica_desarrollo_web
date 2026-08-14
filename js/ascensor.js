@@ -11,6 +11,7 @@ var solicitudesAtendidas = 0;
 var historial = [];
 var PISO_MIN = 1;
 var PISO_MAX = 12;
+var TIEMPO_PARADA = 2000;
 
 function guardarEnStorage() {
   var datos = {
@@ -68,33 +69,53 @@ function mover() {
   enMovimiento = true;
   direccion = pisoDestino > pisoActual ? "subiendo" : "bajando";
   cambiarEstado(direccion);
+  iniciarMovimiento();
+}
 
+function iniciarMovimiento() {
   var intervalo = setInterval(function () {
     pisoActual += pisoDestino > pisoActual ? 1 : -1;
     notificar();
 
     if (pisoActual === pisoDestino) {
       clearInterval(intervalo);
-      pisoDestino = null;
-      direccion = "detenido";
-      enMovimiento = false;
-      solicitudesAtendidas++;
-      historial.push("Llegada al piso " + pisoActual);
-      guardarEnStorage();
-      cambiarEstado("detenido");
-      mover();
+      atenderParada(true);
       return;
     }
 
     var indice = solicitudes.indexOf(pisoActual);
     if (indice !== -1) {
-      solicitudes.splice(indice, 1);
-      solicitudesAtendidas++;
-      historial.push("Parada de camino en el piso " + pisoActual);
-      guardarEnStorage();
-      notificar();
+      clearInterval(intervalo);
+      atenderParada(false);
     }
   }, 1000);
+}
+
+function atenderParada(esDestino) {
+  if (!esDestino) {
+    var indice = solicitudes.indexOf(pisoActual);
+    if (indice !== -1) {
+      solicitudes.splice(indice, 1);
+    }
+  }
+
+  solicitudesAtendidas++;
+  historial.push(esDestino ? "Llegada al piso " + pisoActual : "Parada de camino en el piso " + pisoActual);
+  guardarEnStorage();
+  cambiarEstado("atendiendo");
+
+  setTimeout(function () {
+    if (esDestino) {
+      pisoDestino = null;
+      direccion = "detenido";
+      enMovimiento = false;
+      cambiarEstado("detenido");
+      mover();
+    } else {
+      cambiarEstado(direccion);
+      iniciarMovimiento();
+    }
+  }, TIEMPO_PARADA);
 }
 
 function llamarAscensor(piso) {
