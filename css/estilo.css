@@ -1,7 +1,7 @@
 :root {
-  --color-fondo: #f5f7fa;
+  --color-fondo: #f8fafc;
   --color-superficie: #ffffff;
-  --color-texto: #334155;
+  --color-texto: #1e293b;
   --color-texto-secundario: #64748b;
   --color-primario: #2563eb;
   --color-primario-hover: #1d4ed8;
@@ -9,11 +9,11 @@
   --color-ascensor: #cbd5e1;
   --color-puerta: #94a3b8;
   
-  --alto-piso: 80px;
-  --ancho-ascensor: 60px;
-  --fuente-principal: 'Inter', system-ui, sans-serif;
-  --radio-borde: 8px;
-  --sombra-caja: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --alto-piso: 50px;
+  --ancho-ascensor: 70px;
+  --fuente-principal: 'Inter', system-ui, -apple-system, sans-serif;
+  --radio-borde: 12px;
+  --sombra-caja: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
 }
 
 * {
@@ -30,15 +30,15 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 2rem 1rem;
 }
 
 .contenedor {
-  max-width: 800px;
+  max-width: 1100px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .cabecera {
@@ -46,16 +46,17 @@ body {
 }
 
 h1 {
-  font-size: 1.875rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
   color: #0f172a;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
 }
 
 /* Panel de estado tipo Dashboard */
 .panel-estado {
   background: var(--color-superficie);
-  padding: 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-radius: var(--radio-borde);
   box-shadow: var(--sombra-caja);
   display: flex;
@@ -67,13 +68,28 @@ h1 {
 
 .estado-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1rem;
+}
+
+.estado-subgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  border-top: 1px solid var(--color-borde);
+  padding-top: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .estado-subgrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .estado-item {
   display: flex;
   flex-direction: column;
+  gap: 0.25rem;
 }
 
 .estado-label {
@@ -86,21 +102,33 @@ h1 {
 
 .estado-valor {
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--color-texto);
-  min-height: 27px; /* Evitar saltos de linea vacios */
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.texto-evento {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #334155;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .badge {
   display: inline-block;
   padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.85rem;
+  font-weight: 600;
   background-color: #dbeafe;
   color: #1e40af;
   border-radius: 9999px;
-  margin-right: 0.5rem;
-  margin-top: 0.25rem;
+  margin-right: 0.35rem;
+  margin-bottom: 0.25rem;
 }
 
 .badge.vacio {
@@ -113,9 +141,84 @@ h1 {
   color: #166534;
 }
 
+.badge.estado-atendiendo {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
 .badge.estado-detenido {
   background-color: #fee2e2;
   color: #991b1b;
+}
+
+/* Panel de controles */
+.panel-controles {
+  background: var(--color-superficie);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-caja);
+  border: 1px solid var(--color-borde);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.control-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+  min-width: 220px;
+}
+
+.control-item label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-texto-secundario);
+}
+
+.control-item input[type="range"] {
+  accent-color: var(--color-primario);
+  cursor: pointer;
+}
+
+.btn-item {
+  flex: 0 0 auto;
+  align-self: flex-end;
+}
+
+.btn-secundario {
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1px solid var(--color-borde);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-family: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secundario:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Layout Principal */
+.simulador-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 820px) {
+  .simulador-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Estructura del Edificio */
@@ -127,76 +230,94 @@ h1 {
 .edificio {
   background: var(--color-superficie);
   border-radius: var(--radio-borde);
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: var(--sombra-caja);
   border: 1px solid var(--color-borde);
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .hueco-ascensor {
   width: calc(var(--ancho-ascensor) + 20px);
-  height: calc(var(--alto-piso) * 5);
+  height: calc(var(--alto-piso) * 12);
   background-color: #e2e8f0;
   border: 2px solid #cbd5e1;
-  border-radius: 4px;
+  border-radius: 8px;
   position: relative;
+  overflow: hidden;
 }
 
 .ascensor-cabina {
   width: var(--ancho-ascensor);
-  height: calc(var(--alto-piso) - 10px);
-  background-color: var(--color-ascensor);
-  border: 2px solid var(--color-texto-secundario);
-  border-radius: 4px;
+  height: calc(var(--alto-piso) - 8px);
+  background-color: #38bdf8;
+  border: 2px solid #0284c7;
+  border-radius: 6px;
   position: absolute;
   left: 8px;
-  bottom: 5px; /* Comienza en el piso 1 */
+  bottom: 4px;
   transition: transform 1s ease-in-out;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  color: #0c4a6e;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.cabina-display {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 2px 8px;
+  border-radius: 4px;
+  z-index: 2;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .puertas {
   width: 2px;
   height: 100%;
-  background-color: var(--color-puerta);
+  background-color: #0284c7;
+  position: absolute;
 }
 
 .lista-pisos {
   list-style: none;
   display: flex;
-  flex-direction: column-reverse; /* El piso 1 abajo, el 5 arriba */
-  height: calc(var(--alto-piso) * 5);
+  flex-direction: column-reverse;
+  height: calc(var(--alto-piso) * 12);
   justify-content: space-around;
+  flex: 1;
 }
 
 .piso {
   height: var(--alto-piso);
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: space-between;
+  padding: 0 0.5rem;
   border-bottom: 1px dashed var(--color-borde);
 }
 
-.piso:first-child { /* En flex-direction: column-reverse, el first-child (piso 1) esta abajo */
+.piso:first-child {
   border-bottom: none;
 }
 
 .piso-label {
-  font-weight: 500;
-  min-width: 60px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-texto);
 }
 
 .btn-llamar {
   background-color: var(--color-primario);
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.85rem;
   border-radius: 6px;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.825rem;
   font-family: inherit;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
@@ -207,9 +328,56 @@ h1 {
 }
 
 .btn-llamar:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 
 .btn-llamar.activo {
-  background-color: #ef4444; /* Rojo cuando esta llamado */
+  background-color: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+/* Historial Wrapper */
+.historial-wrapper {
+  background: var(--color-superficie);
+  border-radius: var(--radio-borde);
+  padding: 1.5rem;
+  box-shadow: var(--sombra-caja);
+  border: 1px solid var(--color-borde);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: calc(var(--alto-piso) * 12 + 3rem);
+}
+
+.historial-wrapper h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.contenedor-historial {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.tabla-historial {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.tabla-historial tr {
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.tabla-historial tr:nth-child(even) {
+  background-color: #f1f5f9;
+}
+
+.tabla-historial td {
+  padding: 0.6rem 0.85rem;
+  color: var(--color-texto);
 }

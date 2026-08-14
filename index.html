@@ -5,7 +5,7 @@
   <title>Simulador de Ascensor</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -23,48 +23,110 @@
             <span id="ui-piso" class="estado-valor">1</span>
           </div>
           <div class="estado-item">
-            <span class="estado-label">Direccion</span>
+            <span class="estado-label">Dirección</span>
             <span id="ui-direccion" class="estado-valor">Detenido</span>
           </div>
+          <div class="estado-item">
+            <span class="estado-label">Solicitudes Atendidas</span>
+            <span id="ui-atendidas" class="estado-valor">0</span>
+          </div>
         </div>
-        <div class="estado-item" style="margin-top: 0.5rem;">
-          <span class="estado-label">Solicitudes Pendientes</span>
-          <div id="ui-solicitudes" class="estado-valor">
-            <span class="badge vacio">Ninguna</span>
+        <div class="estado-subgrid">
+          <div class="estado-item">
+            <span class="estado-label">Solicitudes Pendientes</span>
+            <div id="ui-solicitudes" class="estado-valor">
+              <span class="badge vacio">Ninguna</span>
+            </div>
+          </div>
+          <div class="estado-item">
+            <span class="estado-label">Último Evento</span>
+            <div id="ui-ultimo-evento" class="estado-valor texto-evento">Ninguno</div>
           </div>
         </div>
       </div>
     </header>
 
-    <main class="edificio-wrapper">
-      <div class="edificio">
-        <div class="hueco-ascensor">
+    <section class="panel-controles">
+      <div class="control-item">
+        <label for="velocidad">Velocidad: <span id="velocidad-val">5</span></label>
+        <input type="range" id="velocidad" min="1" max="10" value="6">
+      </div>
+      <div class="control-item">
+        <label for="espera">Tiempo de Parada: <span id="espera-val">2s</span></label>
+        <input type="range" id="espera" min="0" max="5" value="2">
+      </div>
+      <div class="control-item btn-item">
+        <button type="button" id="btn-limpiar" class="btn-secundario">Limpiar Historial</button>
+      </div>
+    </section>
+
+    <main class="simulador-layout">
+      <div class="edificio-wrapper">
+        <div class="edificio">
+          <div class="hueco-ascensor">
             <div class="ascensor-cabina" id="ascensor-cabina">
-               <div class="puertas"></div>
+              <div class="cabina-display" id="cabina-display">1</div>
+              <div class="puertas"></div>
             </div>
+          </div>
+          <ul id="pisos" class="lista-pisos">
+            <li class="piso" id="piso-12">
+              <span class="piso-label">Piso 12</span>
+              <button type="button" class="btn-llamar" data-piso="12">Llamar</button>
+            </li>
+            <li class="piso" id="piso-11">
+              <span class="piso-label">Piso 11</span>
+              <button type="button" class="btn-llamar" data-piso="11">Llamar</button>
+            </li>
+            <li class="piso" id="piso-10">
+              <span class="piso-label">Piso 10</span>
+              <button type="button" class="btn-llamar" data-piso="10">Llamar</button>
+            </li>
+            <li class="piso" id="piso-9">
+              <span class="piso-label">Piso 9</span>
+              <button type="button" class="btn-llamar" data-piso="9">Llamar</button>
+            </li>
+            <li class="piso" id="piso-8">
+              <span class="piso-label">Piso 8</span>
+              <button type="button" class="btn-llamar" data-piso="8">Llamar</button>
+            </li>
+            <li class="piso" id="piso-7">
+              <span class="piso-label">Piso 7</span>
+              <button type="button" class="btn-llamar" data-piso="7">Llamar</button>
+            </li>
+            <li class="piso" id="piso-6">
+              <span class="piso-label">Piso 6</span>
+              <button type="button" class="btn-llamar" data-piso="6">Llamar</button>
+            </li>
+            <li class="piso" id="piso-5">
+              <span class="piso-label">Piso 5</span>
+              <button type="button" class="btn-llamar" data-piso="5">Llamar</button>
+            </li>
+            <li class="piso" id="piso-4">
+              <span class="piso-label">Piso 4</span>
+              <button type="button" class="btn-llamar" data-piso="4">Llamar</button>
+            </li>
+            <li class="piso" id="piso-3">
+              <span class="piso-label">Piso 3</span>
+              <button type="button" class="btn-llamar" data-piso="3">Llamar</button>
+            </li>
+            <li class="piso" id="piso-2">
+              <span class="piso-label">Piso 2</span>
+              <button type="button" class="btn-llamar" data-piso="2">Llamar</button>
+            </li>
+            <li class="piso" id="piso-1">
+              <span class="piso-label">Piso 1</span>
+              <button type="button" class="btn-llamar" data-piso="1">Llamar</button>
+            </li>
+          </ul>
         </div>
-        <ul id="pisos" class="lista-pisos">
-          <li class="piso" id="piso-5">
-            <span class="piso-label">Piso 5</span>
-            <button type="button" class="btn-llamar" data-piso="5">Llamar</button>
-          </li>
-          <li class="piso" id="piso-4">
-            <span class="piso-label">Piso 4</span>
-            <button type="button" class="btn-llamar" data-piso="4">Llamar</button>
-          </li>
-          <li class="piso" id="piso-3">
-            <span class="piso-label">Piso 3</span>
-            <button type="button" class="btn-llamar" data-piso="3">Llamar</button>
-          </li>
-          <li class="piso" id="piso-2">
-            <span class="piso-label">Piso 2</span>
-            <button type="button" class="btn-llamar" data-piso="2">Llamar</button>
-          </li>
-          <li class="piso" id="piso-1">
-            <span class="piso-label">Piso 1</span>
-            <button type="button" class="btn-llamar" data-piso="1">Llamar</button>
-          </li>
-        </ul>
+      </div>
+
+      <div class="historial-wrapper">
+        <h2>Historial de Eventos</h2>
+        <div id="contenedor-historial" class="contenedor-historial">
+          <table id="historial" class="tabla-historial"></table>
+        </div>
       </div>
     </main>
   </div>
