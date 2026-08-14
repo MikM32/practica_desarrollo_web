@@ -2,20 +2,72 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>ascensor</title>
+  <title>Simulador de Ascensor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
-  <h1 align="center">Simulador De Ascensor</h1>
+  <div class="contenedor">
+    <header class="cabecera">
+      <h1>Simulador De Ascensor</h1>
+      <div id="info" class="panel-estado">
+        <div class="estado-grid">
+          <div class="estado-item">
+            <span class="estado-label">Estado</span>
+            <span id="ui-estado" class="estado-valor"><span class="badge vacio">Cargando...</span></span>
+          </div>
+          <div class="estado-item">
+            <span class="estado-label">Piso Actual</span>
+            <span id="ui-piso" class="estado-valor">1</span>
+          </div>
+          <div class="estado-item">
+            <span class="estado-label">Direccion</span>
+            <span id="ui-direccion" class="estado-valor">Detenido</span>
+          </div>
+        </div>
+        <div class="estado-item" style="margin-top: 0.5rem;">
+          <span class="estado-label">Solicitudes Pendientes</span>
+          <div id="ui-solicitudes" class="estado-valor">
+            <span class="badge vacio">Ninguna</span>
+          </div>
+        </div>
+      </div>
+    </header>
 
-  <p id="info"></p>
-
-  <ul id="pisos">
-    <li id="piso-5">Piso 5 <span class="marcador"></span> <button type="button" data-piso="5">Llamar</button></li>
-    <li id="piso-4">Piso 4 <span class="marcador"></span> <button type="button" data-piso="4">Llamar</button></li>
-    <li id="piso-3">Piso 3 <span class="marcador"></span> <button type="button" data-piso="3">Llamar</button></li>
-    <li id="piso-2">Piso 2 <span class="marcador"></span> <button type="button" data-piso="2">Llamar</button></li>
-    <li id="piso-1">Piso 1 <span class="marcador"></span> <button type="button" data-piso="1">Llamar</button></li>
-  </ul>
+    <main class="edificio-wrapper">
+      <div class="edificio">
+        <div class="hueco-ascensor">
+            <div class="ascensor-cabina" id="ascensor-cabina">
+               <div class="puertas"></div>
+            </div>
+        </div>
+        <ul id="pisos" class="lista-pisos">
+          <li class="piso" id="piso-5">
+            <span class="piso-label">Piso 5</span>
+            <button type="button" class="btn-llamar" data-piso="5">Llamar</button>
+          </li>
+          <li class="piso" id="piso-4">
+            <span class="piso-label">Piso 4</span>
+            <button type="button" class="btn-llamar" data-piso="4">Llamar</button>
+          </li>
+          <li class="piso" id="piso-3">
+            <span class="piso-label">Piso 3</span>
+            <button type="button" class="btn-llamar" data-piso="3">Llamar</button>
+          </li>
+          <li class="piso" id="piso-2">
+            <span class="piso-label">Piso 2</span>
+            <button type="button" class="btn-llamar" data-piso="2">Llamar</button>
+          </li>
+          <li class="piso" id="piso-1">
+            <span class="piso-label">Piso 1</span>
+            <button type="button" class="btn-llamar" data-piso="1">Llamar</button>
+          </li>
+        </ul>
+      </div>
+    </main>
+  </div>
 
   <script src="js/ascensor.js"></script>
   <script src="js/vista.js"></script>
