@@ -1,14 +1,14 @@
 :root {
-  --color-fondo: #f8fafc;
+  --color-fondo: #f5f7fa;
   --color-superficie: #ffffff;
-  --color-texto: #1e293b;
+  --color-texto: #334155;
   --color-texto-secundario: #64748b;
   --color-primario: #2563eb;
   --color-primario-hover: #1d4ed8;
   --color-borde: #e2e8f0;
   --color-ascensor: #cbd5e1;
   --color-puerta: #94a3b8;
-  
+
   --alto-piso: 50px;
   --ancho-ascensor: 70px;
   --fuente-principal: 'Inter', system-ui, -apple-system, sans-serif;
@@ -261,7 +261,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   color: #0c4a6e;
   font-weight: 700;
   font-size: 0.9rem;
@@ -272,7 +272,7 @@ h1 {
   padding: 2px 8px;
   border-radius: 4px;
   z-index: 2;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .puertas {
