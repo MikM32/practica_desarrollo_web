@@ -32,14 +32,16 @@ function render() {
     }
   }
 
-  var listaHistorial = document.getElementById("historial");
-  if (listaHistorial) {
-    listaHistorial.innerHTML = "";
+  var tablaHistorial = document.getElementById("historial");
+  if (tablaHistorial) {
+    tablaHistorial.innerHTML = "";
     var items = A.getHistorial();
     for (i = 0; i < items.length; i++) {
-      var itemLi = document.createElement("li");
-      itemLi.textContent = items[i];
-      listaHistorial.appendChild(itemLi);
+      var fila = document.createElement("tr");
+      var celda = document.createElement("td");
+      celda.textContent = items[i];
+      fila.appendChild(celda);
+      tablaHistorial.appendChild(fila);
     }
   }
 }
