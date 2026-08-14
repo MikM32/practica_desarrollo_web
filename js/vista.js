@@ -1,6 +1,6 @@
 "use strict";
 
-var TOTAL_PISOS = 5;
+var TOTAL_PISOS = 12;
 
 function render() {
   var A = window.Ascensor;
