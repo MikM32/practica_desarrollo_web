@@ -9,6 +9,13 @@ function iniciar() {
       window.Ascensor.llamarAscensor(piso);
     });
   }
+
+  var btnLimpiar = document.getElementById("btn-limpiar");
+  if (btnLimpiar) {
+    btnLimpiar.addEventListener("click", function () {
+      window.Ascensor.limpiarHistorial();
+    });
+  }
 }
 
 window.addEventListener("load", function () {

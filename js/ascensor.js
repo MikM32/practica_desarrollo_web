@@ -7,6 +7,43 @@ var estado = "detenido";
 var enMovimiento = false;
 var solicitudes = [];
 var observadores = [];
+var solicitudesAtendidas = 0;
+var historial = [];
+var PISO_MIN = 1;
+var PISO_MAX = 12;
+
+function guardarEnStorage() {
+  var datos = {
+    pisoActual: pisoActual,
+    solicitudesAtendidas: solicitudesAtendidas,
+    historial: historial
+  };
+  localStorage.setItem("ascensor_datos", JSON.stringify(datos));
+}
+
+function cargarDeStorage() {
+  var guardado = localStorage.getItem("ascensor_datos");
+  if (guardado) {
+    try {
+      var datos = JSON.parse(guardado);
+      if (typeof datos.pisoActual === "number" &&
+          datos.pisoActual >= PISO_MIN &&
+          datos.pisoActual <= PISO_MAX) {
+        pisoActual = datos.pisoActual;
+      }
+      if (typeof datos.solicitudesAtendidas === "number") {
+        solicitudesAtendidas = datos.solicitudesAtendidas;
+      }
+      if (Array.isArray(datos.historial)) {
+        historial = datos.historial;
+      }
+    } catch (e) {
+      // ignorar error de formato
+    }
+  }
+}
+
+cargarDeStorage();
 
 function suscribir(fn) {
   observadores.push(fn);
@@ -41,8 +78,21 @@ function mover() {
       pisoDestino = null;
       direccion = "detenido";
       enMovimiento = false;
+      solicitudesAtendidas++;
+      historial.push("Llegada al piso " + pisoActual);
+      guardarEnStorage();
       cambiarEstado("detenido");
       mover();
+      return;
+    }
+
+    var indice = solicitudes.indexOf(pisoActual);
+    if (indice !== -1) {
+      solicitudes.splice(indice, 1);
+      solicitudesAtendidas++;
+      historial.push("Parada de camino en el piso " + pisoActual);
+      guardarEnStorage();
+      notificar();
     }
   }, 1000);
 }
@@ -52,13 +102,23 @@ function llamarAscensor(piso) {
   if (piso === pisoDestino) return;
   if (solicitudes.indexOf(piso) !== -1) return;
   solicitudes.push(piso);
+  historial.push("Llamada realizada al piso " + piso + " desde piso actual " + pisoActual);
+  guardarEnStorage();
   notificar();
   mover();
+}
+
+function limpiarHistorial() {
+  historial = [];
+  solicitudesAtendidas = 0;
+  guardarEnStorage();
+  notificar();
 }
 
 window.Ascensor = {
   llamarAscensor: llamarAscensor,
   suscribir: suscribir,
+  limpiarHistorial: limpiarHistorial,
   getPisoActual: function () {
     return pisoActual;
   },
@@ -73,5 +133,14 @@ window.Ascensor = {
   },
   getSolicitudes: function () {
     return solicitudes.slice();
+  },
+  getSolicitudesAtendidas: function () {
+    return solicitudesAtendidas;
+  },
+  getHistorial: function () {
+    return historial.slice();
+  },
+  getUltimoEvento: function () {
+    return historial.length > 0 ? historial[historial.length - 1] : "Ninguno";
   }
 };
