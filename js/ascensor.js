@@ -9,6 +9,8 @@ var solicitudes = [];
 var observadores = [];
 var solicitudesAtendidas = 0;
 var historial = [];
+var PISO_MIN = 1;
+var PISO_MAX = 12;
 
 function guardarEnStorage() {
   var datos = {
@@ -24,7 +26,9 @@ function cargarDeStorage() {
   if (guardado) {
     try {
       var datos = JSON.parse(guardado);
-      if (typeof datos.pisoActual === "number") {
+      if (typeof datos.pisoActual === "number" &&
+          datos.pisoActual >= PISO_MIN &&
+          datos.pisoActual <= PISO_MAX) {
         pisoActual = datos.pisoActual;
       }
       if (typeof datos.solicitudesAtendidas === "number") {
@@ -79,6 +83,16 @@ function mover() {
       guardarEnStorage();
       cambiarEstado("detenido");
       mover();
+      return;
+    }
+
+    var indice = solicitudes.indexOf(pisoActual);
+    if (indice !== -1) {
+      solicitudes.splice(indice, 1);
+      solicitudesAtendidas++;
+      historial.push("Parada de camino en el piso " + pisoActual);
+      guardarEnStorage();
+      notificar();
     }
   }, 1000);
 }
