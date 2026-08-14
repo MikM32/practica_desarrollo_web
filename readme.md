@@ -38,3 +38,38 @@ Hay 3 niveles, el 1 y el 2 son obligatorios y el 3 es bonus.
 ## Como correrlo
 
 Se abre el index.html en el navegador y listo, no necesita servidor. Tambien funciona con live server.
+
+## Uso declarado de IA
+
+Herramienta: DeepSeek Pro.
+
+La use para preguntar cosas puntuales y para que me revise pedazos de codigo, no para que me haga todo el proyecto. Le tiraba preguntas sueltas y despues lo adaptaba yo con el grupo.
+
+Prompts que use (mas o menos asi se los ponia):
+
+- "fijate que patron de diseno me conviene para un ascensor, mvc o state? o es mucha cosa para algo tan chico"
+- "como hago para que el ascensor atienda los pisos que le quedan de camino mientras sube, tipo que no cambie de direccion de una"
+- "me pasa que si llamo al piso destino mientras va en ruta el ascensor se queda bajando para siempre, que puede ser eso?"
+- "como guardo el estado en localStorage y como lo valido al cargar, para que no se rompa si tocan el json desde la consola"
+- "como evito que se dupliquen las solicitudes y que no reviente si aprieto rapido un monton de botones"
+
+Sugerencias que acepte:
+
+- El MVC liviano con observer: el modelo notifica los cambios y la vista se suscribe. Descarte el patron State completo porque era demasiado para 3 estados.
+- El setTimeout encadenado en vez de setInterval, para poder frenar en los pisos de camino.
+- Validar los datos al cargar localStorage (que el piso este en rango, la velocidad en rango, etc).
+- El check de solicitudes repetidas y de no llamar al piso actual ni al destino.
+
+Lo que modificamos nosotros:
+
+- Los rangos de velocidad y tiempo de parada, y como se mapean con los sliders.
+- El CSS y la animacion de la cabina.
+- Le pusimos 12 pisos y cambiamos textos y nombres de funciones.
+- El orden de carga de los scripts en el html.
+
+Que aprendi:
+
+- A separar de verdad la logica de la vista, no solo en la cabeza.
+- Como funciona el patron observer y por que sirve aca.
+- Que js es de un solo hilo, no hay paralelismo real, pero igual hay que cuidar el orden de las operaciones para que no se pisen dos recorridos.
+- Que nunca hay que confiar en los datos del cliente, ni de localStorage ni de la consola.
