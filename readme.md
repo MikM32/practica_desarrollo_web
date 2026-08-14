@@ -45,7 +45,7 @@ Herramienta: DeepSeek Pro.
 
 La use para preguntar cosas puntuales y para que me revise pedazos de codigo, no para que me haga todo el proyecto. Le tiraba preguntas sueltas y despues lo adaptaba yo con el grupo.
 
-Prompts que use (mas o menos asi se los ponia):
+Prompts que use:
 
 - "fijate que patron de diseno me conviene para un ascensor, mvc o state? o es mucha cosa para algo tan chico"
 - "como hago para que el ascensor atienda los pisos que le quedan de camino mientras sube, tipo que no cambie de direccion de una"
