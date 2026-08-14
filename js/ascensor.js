@@ -4,7 +4,7 @@ var pisoActual = 1;
 var pisoDestino = null;
 var direccion = "detenido";
 var estado = "detenido";
-var enMovimiento = false;
+var enMovimiento = false; // impide iniciar dos recorridos a la vez
 var solicitudes = [];
 var observadores = [];
 var solicitudesAtendidas = 0;
@@ -25,6 +25,7 @@ function guardarEnStorage() {
   localStorage.setItem("ascensor_datos", JSON.stringify(datos));
 }
 
+// restaura y valida lo guardado en localStorage
 function cargarDeStorage() {
   var guardado = localStorage.getItem("ascensor_datos");
   if (guardado) {
@@ -85,6 +86,7 @@ function mover() {
   iniciarMovimiento();
 }
 
+// avanza un piso y programa el siguiente
 function iniciarMovimiento() {
   setTimeout(function avanzar() {
     pisoActual += pisoDestino > pisoActual ? 1 : -1;
@@ -95,6 +97,7 @@ function iniciarMovimiento() {
       return;
     }
 
+    // atiende de camino los pisos con solicitud pendiente
     var indice = solicitudes.indexOf(pisoActual);
     if (indice !== -1) {
       atenderParada(false);
@@ -105,6 +108,7 @@ function iniciarMovimiento() {
   }, velocidadMs);
 }
 
+// pausa en el piso: destino final o parada de camino
 function atenderParada(esDestino) {
   if (!esDestino) {
     var indice = solicitudes.indexOf(pisoActual);
@@ -132,6 +136,7 @@ function atenderParada(esDestino) {
   }, tiempoParadaMs);
 }
 
+// evita registrar solicitudes repetidas o ya atendidas
 function llamarAscensor(piso) {
   if (piso === pisoActual) return;
   if (piso === pisoDestino) return;
