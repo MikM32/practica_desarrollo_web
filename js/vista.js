@@ -21,6 +21,7 @@ function render() {
   for (i = 1; i <= TOTAL_PISOS; i++) {
     var li = document.getElementById("piso-" + i);
     if (li) {
+      // marca el piso donde esta el ascensor
       var marcador = li.querySelector(".marcador");
       if (marcador) {
         if (A.getPisoActual() === i) {
